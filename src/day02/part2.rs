@@ -1,96 +1,47 @@
 use itertools::Itertools;
 use miette::Result;
 
+#[derive(PartialEq)]
+enum Trend {
+    Increasing,
+    Decreasing,
+}
+
 fn is_safe(report: &Vec<u32>) -> bool {
-    fn test_increments(report: &Vec<u32>) -> bool {
-        let mut removals_left = 1;
-        let mut attempt_removal = false;
-        let mut removed_a: u32 = 0;
-
-        for (a, b) in report.into_iter().tuple_windows() {
-            if attempt_removal && removed_a < *b && removed_a.abs_diff(*b) <= 3 {
-                attempt_removal = false;
-                continue;
-            } else if !attempt_removal && a < b && a.abs_diff(*b) <= 3 {
-                continue;
-            } else if removals_left > 0 {
-                removals_left -= 1;
-                attempt_removal = true;
-                removed_a = *a;
-                continue;
-            } else {
-                return false;
-            }
+    fn check(report: &Vec<u32>, i: usize, a: u32, trend: Trend, skips_remaining: u32) -> bool {
+        if i >= report.len() {
+            return true;
         }
 
-        return true;
-    }
+        let b = report[i];
 
-    fn test_decrements(report: &Vec<u32>) -> bool {
-        let mut removals_left = 1;
-        let mut attempt_removal = false;
-        let mut removed_a: u32 = 0;
-
-        for (a, b) in report.into_iter().tuple_windows() {
-            if attempt_removal && removed_a > *b && removed_a.abs_diff(*b) <= 3 {
-                attempt_removal = false;
-                continue;
-            } else if !attempt_removal && a > b && a.abs_diff(*b) <= 3 {
-                continue;
-            } else if removals_left > 0 {
-                removals_left -= 1;
-                attempt_removal = true;
-                removed_a = *a;
-                continue;
-            } else {
-                return false;
-            }
+        if trend == Trend::Increasing && a < b && a.abs_diff(b) <= 3 {
+            // good, continue
+            return check(report, i + 1, b, trend, skips_remaining);
+        } else if trend == Trend::Decreasing && a > b && a.abs_diff(b) <= 3 {
+            // good, continue
+            return check(report, i + 1, b, trend, skips_remaining);
+        } else if skips_remaining > 0 {
+            // use a skip
+            return check(report, i + 1, a, trend, skips_remaining - 1);
+        } else {
+            return false;
         }
-
-        return true;
     }
 
-    fn test_increments2(report: &Vec<u32>) -> bool {
-        let mut a = report[0];
-        let mut problems = 0;
-        for i in 1..report.len() {
-            let b = report[i];
+    let incr_0 = check(report, 1, report[0], Trend::Increasing, 1);
+    let incr_1 = check(report, 2, report[1], Trend::Increasing, 0);
+    let decr_0 = check(report, 1, report[0], Trend::Decreasing, 1);
+    let decr_1 = check(report, 2, report[1], Trend::Decreasing, 0);
 
-            if a < b && a.abs_diff(b) <= 3 {
-                a = b;
-                continue;
-            } else {
-                problems += 1;
-            }
-        }
+    let decision = incr_0 || incr_1 || decr_0 || decr_1;
+    // let correct = is_safe_brute(report);
 
-        return problems <= 1;
-    }
+    // if decision != correct {
+    //     println!("Miss! {report:?} => {incr_0} || {incr_1} || {decr_0} || {decr_1}");
+    // }
 
-    fn test_decrements2(report: &Vec<u32>) -> bool {
-        let mut a = report[0];
-        let mut problems = 0;
-        for i in 1..report.len() {
-            let b = report[i];
-
-            if a > b && a.abs_diff(b) <= 3 {
-                a = b;
-                continue;
-            } else {
-                //println!("Removing {b}");
-                problems += 1;
-            }
-        }
-
-        return problems <= 1;
-    }
-
-    let inc = test_increments2(report);
-    let dec = test_decrements2(report);
-
-    //println!("{report:?} => {inc} || {dec}");
-
-    return inc || dec;
+    return decision;
 }
 
 fn is_safe_brute(report: &Vec<u32>) -> bool {
@@ -110,8 +61,8 @@ fn is_safe_brute(report: &Vec<u32>) -> bool {
 
 pub fn process(input: &str) -> Result<usize> {
     let matrix = super::parse(input)?;
-
-    let safe = matrix.into_iter().filter(is_safe_brute).count();
+    
+    let safe = matrix.into_iter().filter(is_safe).count();
 
     Ok(safe)
 }
