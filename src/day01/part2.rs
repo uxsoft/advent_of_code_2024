@@ -2,7 +2,7 @@ use miette::Result;
 use std::collections::BTreeMap;
 
 pub fn process(input: &str) -> Result<u32> {
-    let (mut list1, mut list2) = super::parse(input)?;
+    let (list1, list2) = super::parse(input)?;
 
     let mut frequency: BTreeMap<u32, u32> = BTreeMap::new();
     for word in list2 {
