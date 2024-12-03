@@ -1,8 +1,8 @@
 use chumsky::prelude::*;
 use miette::*;
 
-mod part1;
-mod part2;
+pub mod part1;
+pub mod part2;
 
 #[derive(Debug, Clone)]
 pub enum Token {

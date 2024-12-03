@@ -1,7 +1,6 @@
-use miette::Result;
-
-pub fn process(input: &str) -> Result<u32> {
-    let (mut list1, mut list2) = super::parse(input)?;
+pub fn process(input: &str) -> miette::Result<u32> {
+    let lists = super::parse_chumsky(input)?;
+    let (mut list1, mut list2): (Vec<_>, Vec<_>) = lists.into_iter().unzip();
 
     list1.sort();
     list2.sort();

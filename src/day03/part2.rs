@@ -34,6 +34,6 @@ mod tests {
     fn real() {
         let input = include_str!("input.txt");
         let result = process(input).unwrap();
-        assert_eq!(result, 0);
+        assert_eq!(result, 84893551);
     }
 }

@@ -2,7 +2,8 @@ use miette::Result;
 use std::collections::BTreeMap;
 
 pub fn process(input: &str) -> Result<u32> {
-    let (list1, list2) = super::parse(input)?;
+    let lists = super::parse_chumsky(input)?;
+    let (list1, list2): (Vec<_>, Vec<_>) = lists.into_iter().unzip();
 
     let mut frequency: BTreeMap<u32, u32> = BTreeMap::new();
     for word in list2 {
@@ -22,7 +23,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn day01_part2_example() {
+    fn example() {
         let input = r"3   4
 4   3
 2   5
@@ -35,7 +36,7 @@ mod tests {
     }
 
     #[test]
-    fn day01_part2_prod() {
+    fn real() {
         let input = include_str!("input.txt");
 
         let result = process(input);

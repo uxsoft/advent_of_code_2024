@@ -29,12 +29,11 @@ fn is_safe(report: &Vec<u32>) -> bool {
         }
     }
 
-    let incr_0 = check(report, 1, report[0], Trend::Increasing, 1);
-    let incr_1 = check(report, 2, report[1], Trend::Increasing, 0);
-    let decr_0 = check(report, 1, report[0], Trend::Decreasing, 1);
-    let decr_1 = check(report, 2, report[1], Trend::Decreasing, 0);
-
-    let decision = incr_0 || incr_1 || decr_0 || decr_1;
+    let decision = check(report, 1, report[0], Trend::Increasing, 1)
+        || check(report, 2, report[1], Trend::Increasing, 0)
+        || check(report, 1, report[0], Trend::Decreasing, 1)
+        || check(report, 2, report[1], Trend::Decreasing, 0);
+        
     // let correct = is_safe_brute(report);
 
     // if decision != correct {
@@ -61,7 +60,7 @@ fn is_safe_brute(report: &Vec<u32>) -> bool {
 
 pub fn process(input: &str) -> Result<usize> {
     let matrix = super::parse(input)?;
-    
+
     let safe = matrix.into_iter().filter(is_safe).count();
 
     Ok(safe)
