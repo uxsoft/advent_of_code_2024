@@ -5,7 +5,7 @@ edition = "2021"
 
 [dependencies]
 miette = { version = "7", features = ["fancy"] }
-chumsky = "0.9.3"
+chumsky = "1.0.0-alpha.7"
 itertools = "0.13.0"
 divan = "0.1.16"
 
