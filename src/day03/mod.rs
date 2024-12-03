@@ -4,10 +4,12 @@ use miette::*;
 mod part1;
 mod part2;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Token {
     Mul(i32, i32),
     Noop(char),
+    Do,
+    Dont
 }
 
 pub fn parse(input: &str) -> miette::Result<Vec<Token>> {
@@ -18,15 +20,11 @@ pub fn parse(input: &str) -> miette::Result<Vec<Token>> {
         .then_ignore(just(")"))
         .map(|(a, b)| Token::Mul(a, b));
 
-    // let mul_test = mul.parse("mul(2,3)").unwrap();
-    // println!("MUL TEST: {:?}", mul_test);
-
-    let mul_or = choice((mul, any().and_is(mul.not()).map(|s| Token::Noop(s))));
-
-    // let mul_or_test = mul_or.parse("mul(2,4)").unwrap();
-    // println!("MUL_OR TEST: {:?}", mul_or_test);
-
-    //let b = mul_or.parse("input").unwrap();
+    let mul_or = choice((
+            mul, 
+            just("do()").to(Token::Do),
+            just("don't()").to(Token::Dont),
+            any().and_is(mul.not()).map(|s| Token::Noop(s))));
 
     let parser = mul_or.repeated().collect();
 
@@ -44,10 +42,10 @@ mod tests {
 
     #[test]
     fn parsing() {
-        let input = "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))";
+        let input = "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))";
         let result = parse(input);
         println!("{:?}", result);
 
-        assert!(false);
+        //assert!(false);
     }
 }

@@ -5,7 +5,7 @@ pub fn process(input: &str) -> miette::Result<i32> {
         .iter()
         .map(|token| match token {
             super::Token::Mul(a, b) => a * b,
-            super::Token::Noop(_) => 0,
+            _ => 0,
         })
         .sum::<i32>();
 
@@ -27,6 +27,6 @@ mod tests {
     fn real() {
         let input = include_str!("input.txt");
         let result = process(input).unwrap();
-        assert_eq!(result, 0);
+        assert_eq!(result, 160672468);
     }
 }
