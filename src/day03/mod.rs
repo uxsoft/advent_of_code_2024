@@ -13,10 +13,13 @@ pub enum Token {
 }
 
 pub fn parse(input: &str) -> miette::Result<Vec<Token>> {
+    
+    let u32 = text::int(10).map(|s: &str| s.parse().unwrap());
+
     let mul = just::<_, _, extra::Err<Simple<char>>>("mul(")
-        .ignore_then(text::int(10).map(|s: &str| s.parse().unwrap()))
+        .ignore_then(u32)
         .then_ignore(just(","))
-        .then(text::int(10).map(|s: &str| s.parse().unwrap()))
+        .then(u32)
         .then_ignore(just(")"))
         .map(|(a, b)| Token::Mul(a, b));
 
@@ -44,8 +47,9 @@ mod tests {
     fn parsing() {
         let input = "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))";
         let result = parse(input);
+        
         println!("{:?}", result);
 
-        //assert!(false);
+        assert!(result.is_ok());
     }
 }

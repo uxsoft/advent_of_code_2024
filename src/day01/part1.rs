@@ -19,7 +19,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn day01_part1_example() {
+    fn example() {
         let input = r"3   4
 4   3
 2   5
@@ -32,7 +32,7 @@ mod tests {
     }
 
     #[test]
-    fn day01_part1_prod() {
+    fn real() {
         let input = include_str!("input.txt");
 
         let result = process(input);

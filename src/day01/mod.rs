@@ -1,7 +1,8 @@
-use miette::*;
-
 pub mod part1;
 pub mod part2;
+
+use miette::*;
+use chumsky::prelude::*;
 
 pub fn parse(input: &str) -> miette::Result<(Vec<u32>, Vec<u32>)> {
     let mut list1 = Vec::new();
@@ -21,17 +22,12 @@ pub fn parse(input: &str) -> miette::Result<(Vec<u32>, Vec<u32>)> {
 }
 
 pub fn parse_chumsky(input: &str) -> miette::Result<Vec<(u32, u32)>> {
-    use chumsky::prelude::*;
-
     let u32 =
         text::int::<_, _, extra::Err<Simple<char>>>(10).map(|s: &str| s.parse::<u32>().unwrap());
 
-    let line = u32
-        .then_ignore(text::whitespace())
-        .then(u32)
-        .then_ignore(text::newline().or(end()));
+    let line = u32.then_ignore(text::whitespace()).then(u32);
 
-    let parser = line.repeated().collect();
+    let parser = line.separated_by(text::newline()).collect();
 
     let result = parser
         .parse(input)
@@ -54,8 +50,9 @@ mod tests {
 3   9
 3   3";
         let result = parse_chumsky(input);
+
         println!("{:?}", result);
 
-        //assert!(false);
+        assert!(result.is_ok());
     }
 }
