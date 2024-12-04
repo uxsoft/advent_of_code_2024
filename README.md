@@ -1,11 +1,20 @@
 # AOC 2024
 
-Development:
+## Getting Started
+
+```bash
+cargo install bacon
+cargo install cargo-nextest
+```
+
+## Running
+
+Clippy Checks:
 ```bash
 bacon
 ```
 
 Run benchmarks:
 ```bash
-cargo bench
+bacon bench
 ```
