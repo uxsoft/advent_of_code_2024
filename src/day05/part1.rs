@@ -4,7 +4,7 @@ fn is_valid_order(pages: &Vec<u32>, rules: &Vec<(u32, u32)>) -> bool {
     let page_to_rank: HashMap<u32, usize> = pages
         .into_iter()
         .enumerate()
-        .map(|(a, b)| (*b, a))
+        .map(|(a, b)| (*b, a + 1))
         .collect();
 
     let is_valid = rules.iter().all(|(first_page, second_page)| {
@@ -12,10 +12,7 @@ fn is_valid_order(pages: &Vec<u32>, rules: &Vec<(u32, u32)>) -> bool {
             < page_to_rank.get(second_page).unwrap_or(&usize::MAX)
     });
 
-    if is_valid {
-        println!("{:?} IS VALID", pages);
-    }
-    is_valid
+    return is_valid;
 }
 
 fn middle_number(pages: Vec<u32>) -> u32 {
@@ -24,15 +21,12 @@ fn middle_number(pages: Vec<u32>) -> u32 {
         "Expected pages.len() > 0 but length {}",
         pages.len()
     ));
-    println!("=> {}", number);
-    *number
+
+    return *number;
 }
 
 pub fn process(input: &str) -> miette::Result<u32> {
     let (rules, manuals) = super::parse(input)?;
-
-    // dbg!(&rules);
-    // dbg!(&manuals);
 
     let total: u32 = manuals
         .into_iter()
@@ -40,7 +34,7 @@ pub fn process(input: &str) -> miette::Result<u32> {
         .map(middle_number)
         .sum();
 
-    Ok(total)
+    return Ok(total);
 }
 
 #[cfg(test)]
@@ -83,5 +77,16 @@ mod tests {
         println!("{:?}", result);
 
         assert_eq!(143, result);
+    }
+
+    #[test]
+    fn real() {
+        let input = include_str!("input.txt");
+
+        let result = process(input).unwrap();
+
+        println!("{:?}", result);
+
+        assert_eq!(7307, result);
     }
 }
