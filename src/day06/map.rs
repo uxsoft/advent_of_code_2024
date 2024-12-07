@@ -30,8 +30,13 @@ impl Map {
         }
     }
 
-    pub fn set_wall(&mut self, location: IVec2, is_wall: bool) {
-        self.walls[location.y as usize][location.x as usize] = is_wall;
+    pub fn peek_with(&self, location: IVec2, extra_wall: IVec2) -> PeekResult {
+        if location == extra_wall {
+            return PeekResult::Wall
+        }
+        else {
+            self.peek(location)
+        }
     }
 
     pub fn parse(input: &str) -> Map {

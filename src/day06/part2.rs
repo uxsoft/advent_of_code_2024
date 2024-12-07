@@ -1,32 +1,25 @@
 // use indicatif::ProgressIterator;
 
-use super::walk::{SimulatedWalk, SimulationResult};
-
 use super::map::Map;
+use super::walk::{SimulatedWalk, SimulationResult};
+use rayon::prelude::*;
 
 pub fn process(input: &str) -> usize {
-    let mut map = Map::parse(input);
+    let map = Map::parse(input);
 
     let mut initial_walk = SimulatedWalk::new(&map);
     initial_walk.simulate();
 
     let feasible_options = initial_walk
         .visited
-        .keys()
-        // .progress()
-        .filter(|new_wall_location| {
-            if new_wall_location != &&map.starting_location {
-                map.set_wall(**new_wall_location, true);
+        .into_par_iter()
+        .map(|(k, _)| k)
+        .filter(|extra_wall| extra_wall != &map.starting_location)
+        .filter(|extra_wall| {
+            let mut walk = SimulatedWalk::new(&map);
+            let walk_result = walk.simulate_with(*extra_wall);
 
-                let mut walk = SimulatedWalk::new(&map);
-                let walk_result = walk.simulate();
-
-                map.set_wall(**new_wall_location, false);
-
-                walk_result == SimulationResult::Loop
-            } else {
-                false
-            }
+            walk_result == SimulationResult::Loop
         })
         .count();
 
@@ -53,7 +46,6 @@ pub mod tests {
         let result = process(input);
         assert_eq!(6, result);
     }
-
 
     #[test]
     fn real() {

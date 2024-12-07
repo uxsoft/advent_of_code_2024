@@ -50,6 +50,10 @@ impl<'a> SimulatedWalk<'a> {
     }
 
     pub fn simulate(&mut self) -> SimulationResult {
+        self.simulate_with(ivec2(-1, -1))
+    }
+
+    pub fn simulate_with(&mut self, extra_wall: IVec2) -> SimulationResult {
         loop {
             self.mark_visited();
 
@@ -59,7 +63,7 @@ impl<'a> SimulatedWalk<'a> {
                 return SimulationResult::Loop;
             }
 
-            match self.map.peek(next_location) {
+            match self.map.peek_with(next_location, extra_wall) {
                 PeekResult::Free => {
                     self.player_location = next_location;
                 }

@@ -1,3 +1,5 @@
+use rayon::prelude::*;
+
 enum Op {
     Add,
     Multiply,
@@ -46,7 +48,7 @@ pub fn process(input: &str) -> miette::Result<u64> {
     let equations = super::parse(input)?;
 
     let result: u64 = equations
-        .into_iter()
+        .par_iter()
         .filter(|(total, comp)| has_solution(*total, comp))
         .map(|(total, _)| total)
         .sum();
