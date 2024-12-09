@@ -3,10 +3,10 @@ use std::{
     ops::{Div, Sub},
 };
 
-fn find(arr: &Vec<i16>, length: usize) -> Option<usize> {
+fn find(arr: &Vec<i16>, length: usize, max_index: usize) -> Option<usize> {
     let mut start_i = 0;
     let mut l = 0;
-    for i in 0..arr.len() {
+    for i in 0..max_index {
         match arr[i] {
             -1 => l += 1,
             _ => {
@@ -59,12 +59,10 @@ pub fn process(input: &str) -> usize {
         // swap
 
         let length = lengths[&file_id];
-        if let Some(fs_index) = find(&array, length) {
-            let b_index = indexes[&file_id];
-            if fs_index < b_index {
-                // Only move leftwards
-                swap(&mut array, fs_index, b_index, length);
-            }
+        let b_index = indexes[&file_id];
+        if let Some(fs_index) = find(&array, length, b_index) {
+            // Only move leftwards
+            swap(&mut array, fs_index, b_index, length);
         }
         file_id -= 1;
     }
