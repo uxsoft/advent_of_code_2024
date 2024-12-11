@@ -11,6 +11,7 @@ divan = "0.1.16"
 glam = "0.29.2"
 indicatif = "0.17.9"
 rayon = "1.10.0"
+ilog = "1.0.1"
 
 [[bench]]
 name = "aoc_all"

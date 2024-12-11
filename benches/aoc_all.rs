@@ -72,3 +72,10 @@ mod day10;
 fn day10() {
     let _ = day10::part2::process(divan::black_box(include_str!("../src/day10/input.txt")));
 }
+
+#[path = "../src/day11/mod.rs"]
+mod day11;
+#[divan::bench(max_time = 1)]
+fn day11() {
+    let _ = day11::part2::process(divan::black_box(include_str!("../src/day11/input.txt")));
+}
