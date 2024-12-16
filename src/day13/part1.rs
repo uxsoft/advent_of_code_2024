@@ -1,5 +1,3 @@
-use super::ClawMachine;
-
 pub fn process(input: &str) -> i64 {
     let claw_machines = super::parse(input);
 

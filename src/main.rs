@@ -13,8 +13,9 @@ mod day10;
 mod day11;
 mod day12;
 mod day13;
+mod day14;
 
 fn main() {
-    let stones = day11::part2::process(include_str!("day11/input.txt"));
-    println!("RESULT: {}", stones);
+    let result = day14::part2::process(include_str!("day14/input.txt"), 101, 103);
+    println!("RESULT: {}", result);
 }
