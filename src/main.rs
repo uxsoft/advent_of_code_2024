@@ -1,21 +1,32 @@
 #![allow(dead_code)]
 
-mod day01;
-mod day02;
-mod day03;
-mod day04;
-mod day05;
-mod day06;
-mod day07;
-mod day08;
-mod day09;
-mod day10;
-mod day11;
-mod day12;
-mod day13;
-mod day14;
+pub mod shared;
+pub mod day01;
+pub mod day02;
+pub mod day03;
+pub mod day04;
+pub mod day05;
+pub mod day06;
+pub mod day07;
+pub mod day08;
+pub mod day09;
+pub mod day10;
+pub mod day11;
+pub mod day12;
+pub mod day13;
+pub mod day14;
+pub mod day15;
 
 fn main() {
-    let result = day14::part2::process(include_str!("day14/input.txt"), 101, 103);
+    let test_input = "#######
+#...#.#
+#.....#
+#..OO@#
+#..O..#
+#.....#
+#######
+
+<vv<<^^<<^^";
+    let result = day15::part2::process(include_str!("day15/input.txt"));
     println!("RESULT: {}", result);
 }
