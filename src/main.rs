@@ -21,6 +21,8 @@ pub mod day17;
 pub mod shared;
 
 fn main() {
-    let result = day16::part2::process(include_str!("day16/input.txt"));
+    let input = include_str!("day17/input.txt");
+
+    let result = day17::part2::process_brute_force(input);
     println!("RESULT: {}", result);
 }
