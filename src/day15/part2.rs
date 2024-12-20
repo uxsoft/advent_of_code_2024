@@ -59,7 +59,7 @@ fn can_cascade_move_to(grid: &Grid<Cell>, current_pos: &Coordinate, direction: &
     use Direction::*;
     // [@][O][.]
     //  c  n
-    if let Some(next_pos) = direction.next_in_bounds(current_pos, grid.width(), grid.height()) {
+    if let Some(next_pos) = direction.advance_bounded(current_pos, grid.width(), grid.height()) {
         let next_contents = grid.get(&next_pos);
 
         let can_move = match next_contents {
@@ -67,7 +67,7 @@ fn can_cascade_move_to(grid: &Grid<Cell>, current_pos: &Coordinate, direction: &
             Robot | Empty => true,
             LBox if direction == &North || direction == &South => {
                 let left_pos = next_pos;
-                let right_pos = East.next(&next_pos).unwrap();
+                let right_pos = East.advance(&next_pos).unwrap();
 
                 let can_left = can_cascade_move_to(grid, &left_pos, direction);
                 let can_right = can_cascade_move_to(grid, &right_pos, direction);
@@ -75,7 +75,7 @@ fn can_cascade_move_to(grid: &Grid<Cell>, current_pos: &Coordinate, direction: &
                 can_left && can_right
             }
             RBox if direction == &North || direction == &South => {
-                let left_pos = West.next(&next_pos).unwrap();
+                let left_pos = West.advance(&next_pos).unwrap();
                 let right_pos = next_pos;
 
                 let can_left = can_cascade_move_to(grid, &left_pos, direction);
@@ -93,33 +93,29 @@ fn can_cascade_move_to(grid: &Grid<Cell>, current_pos: &Coordinate, direction: &
 }
 
 /// Moves value at current_pos to next_pos in direction
-fn cascade_move(
-    grid: &mut Grid<Cell>,
-    current_pos: &Coordinate,
-    direction: &Direction,
-) {
+fn cascade_move(grid: &mut Grid<Cell>, current_pos: &Coordinate, direction: &Direction) {
     use Cell::*;
     use Direction::*;
 
     let current_contents = *grid.get(current_pos);
 
-    if let Some(next_pos) = direction.next(current_pos) {
+    if let Some(next_pos) = direction.advance(current_pos) {
         let next_contents = *grid.get(&next_pos);
 
         // Optionally push next_contents further before writing
         match next_contents {
             LBox if direction == &North || direction == &South => {
                 cascade_move(grid, &next_pos, direction);
-                cascade_move(grid, &East.next(&next_pos).unwrap(), direction);
+                cascade_move(grid, &East.advance(&next_pos).unwrap(), direction);
             }
             RBox if direction == &North || direction == &South => {
-                cascade_move(grid, &West.next(&next_pos).unwrap(), direction);
+                cascade_move(grid, &West.advance(&next_pos).unwrap(), direction);
                 cascade_move(grid, &next_pos, direction);
             }
             LBox | RBox => {
                 cascade_move(grid, &next_pos, direction);
-            },
-            _ => ()
+            }
+            _ => (),
         }
 
         // Do the move
@@ -144,7 +140,7 @@ pub fn process(input: &str) -> usize {
         if can_cascade_move_to(&grid, &robot_pos, &direction) {
             cascade_move(&mut grid, &robot_pos, &direction);
             robot_pos = direction
-                .next_in_bounds(&robot_pos, grid.width(), grid.height())
+                .advance_bounded(&robot_pos, grid.width(), grid.height())
                 .unwrap()
         } else {
             // println!("Can't move {:?}", direction);
@@ -178,22 +174,6 @@ mod tests {
     use super::process;
 
     #[test]
-    fn smaller_example() {
-        let input = "#######
-#...#.#
-#.....#
-#..OO@#
-#..O..#
-#.....#
-#######
-
-<vv<<^^<<^^";
-
-        let score = process(input);
-        assert_eq!(0, score);
-    }
-
-    #[test]
     fn larger_example() {
         let input = "##########
 #..O..O.O#
@@ -224,6 +204,6 @@ v^^>>><<^^<>>^v^<v^vv<>v^<<>^<^v^v><^<<<><<^<v><v<>vv>>v><v^<vv<>v^<<^";
     fn real() {
         let input = include_str!("input.txt");
         let score = process(input);
-        assert_eq!(0, score);
+        assert_eq!(1521453, score);
     }
 }

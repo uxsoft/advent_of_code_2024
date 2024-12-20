@@ -1,6 +1,6 @@
 #![allow(dead_code)]
+#![allow(unused_imports)]
 
-pub mod shared;
 pub mod day01;
 pub mod day02;
 pub mod day03;
@@ -16,17 +16,10 @@ pub mod day12;
 pub mod day13;
 pub mod day14;
 pub mod day15;
+pub mod day16;
+pub mod shared;
 
 fn main() {
-    let test_input = "#######
-#...#.#
-#.....#
-#..OO@#
-#..O..#
-#.....#
-#######
-
-<vv<<^^<<^^";
-    let result = day15::part2::process(include_str!("day15/input.txt"));
+    let result = day16::part2::process(include_str!("day16/input.txt"));
     println!("RESULT: {}", result);
 }

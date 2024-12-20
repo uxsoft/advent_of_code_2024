@@ -1,6 +1,6 @@
 use super::coordinate::Coordinate;
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 pub enum Direction {
     North,
     South,
@@ -9,7 +9,7 @@ pub enum Direction {
 }
 
 impl Direction {
-    pub fn next(&self, current: &Coordinate) -> Option<Coordinate> {
+    pub fn advance(&self, current: &Coordinate) -> Option<Coordinate> {
         match self {
             Direction::North if current.y > 0 => Some(Coordinate::new(current.x, current.y - 1)),
             Direction::South => Some(Coordinate::new(current.x, current.y + 1)),
@@ -19,7 +19,7 @@ impl Direction {
         }
     }
 
-    pub fn next_in_bounds(
+    pub fn advance_bounded(
         &self,
         current: &Coordinate,
         width: usize,
@@ -35,6 +35,28 @@ impl Direction {
                 Some(Coordinate::new(current.x + 1, current.y))
             }
             _ => None,
+        }
+    }
+
+    pub fn rotate_clockwise(&self) -> Direction {
+        use Direction::*;
+
+        match self {
+            North => East,
+            East => South,
+            South => West,
+            West => North,
+        }
+    }
+
+    pub fn rotate_counterclockwise(&self) -> Direction {
+        use Direction::*;
+
+        match self {
+            North => West,
+            West => South,
+            South => East,
+            East => North,
         }
     }
 }

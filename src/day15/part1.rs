@@ -54,7 +54,7 @@ fn try_cascade_move(
     use Cell::*;
     //[x][O][ ]
     //    c
-    if let Some(next_pos) = direction.next_in_bounds(current_pos, grid.width(), grid.height()) {
+    if let Some(next_pos) = direction.advance_bounded(current_pos, grid.width(), grid.height()) {
         let contents = grid.get(&next_pos);
 
         let can_move: Option<Coordinate> = match contents {
@@ -63,7 +63,7 @@ fn try_cascade_move(
             Box => try_cascade_move(grid, &next_pos, direction, *contents),
         };
 
-        if let Some(m) = can_move {
+        if let Some(_) = can_move {
             grid.set(&next_pos, value);
             return Some(next_pos);
         }
