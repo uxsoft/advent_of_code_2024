@@ -1,3 +1,5 @@
+use std::ops::{Add, Sub};
+
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
 pub struct Coordinate {
     pub x: usize,
@@ -9,5 +11,9 @@ impl Coordinate {
         Self { x, y }
     }
 
-
+    pub fn distance(&self, other: &Coordinate) -> f64 {
+        let x = self.x.abs_diff(other.x).pow(2);
+        let y = self.y.abs_diff(other.y).pow(2);
+        (x as f64).add(y as f64).sqrt()
+    }
 }

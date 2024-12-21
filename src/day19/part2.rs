@@ -64,6 +64,6 @@ bbrgwb";
     fn real() {
         let input = include_str!("input.txt");
         let result = process(input);
-        assert_eq!(result, 0);
+        assert_eq!(result, 572248688842069);
     }
 }
