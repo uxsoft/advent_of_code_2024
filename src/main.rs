@@ -1,6 +1,8 @@
 #![allow(dead_code)]
 #![allow(unused_imports)]
 
+use shared::coordinate::Coordinate;
+
 pub mod day01;
 pub mod day02;
 pub mod day03;
@@ -18,11 +20,12 @@ pub mod day14;
 pub mod day15;
 pub mod day16;
 pub mod day17;
+pub mod day18;
 pub mod shared;
 
 fn main() {
-    let input = include_str!("day17/input.txt");
+    let input = include_str!("day18/input.txt");
 
-    let result = day17::part2::process_brute_force(input);
-    println!("RESULT: {}", result);
+    let result = day18::part2::process(input, Coordinate::new(70, 70), 1024);
+    println!("RESULT: {:?}", result);
 }

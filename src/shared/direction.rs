@@ -9,6 +9,11 @@ pub enum Direction {
 }
 
 impl Direction {
+    pub fn all() -> Vec<Direction> {
+        use Direction::*;
+        vec![North, South, East, West]
+    }
+
     pub fn advance(&self, current: &Coordinate) -> Option<Coordinate> {
         match self {
             Direction::North if current.y > 0 => Some(Coordinate::new(current.x, current.y - 1)),

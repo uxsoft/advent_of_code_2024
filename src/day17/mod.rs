@@ -158,7 +158,6 @@ impl<'a> Program<'a> {
                 Out => self.out(operand_value),
                 Bdv => self.bdv(operand_value),
                 Cdv => self.cdv(operand_value),
-                other => panic!("OpCode {:?} not implemented in match", other),
             }
         }
     }
@@ -203,6 +202,7 @@ Register C: 0
 
 Program: 0,1,5,4,3,0";
 
-        let result = Program::parse(input);
+        let (i, _a, _b, _c) = Program::parse(input);
+        assert_eq!(i.len(), 6);
     }
 }

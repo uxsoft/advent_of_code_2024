@@ -94,3 +94,12 @@ fn day16() {
 fn day17() {
     let _ = aoc::day17::part2::process(divan::black_box(include_str!("../src/day17/input.txt")));
 }
+
+#[divan::bench(max_time = 1)]
+fn day18() {
+    let _ = aoc::day18::part2::process(
+        divan::black_box(include_str!("../src/day18/input.txt")),
+        aoc::shared::coordinate::Coordinate::new(70, 70),
+        1024,
+    );
+}

@@ -16,10 +16,6 @@ fn shortest_path_dijsktra(
     dist.insert(start, 0);
     queue.push_back(start);
 
-    //         for each vertex v in Graph.Vertices:
-    //             dist[v] ← INFINITY
-    //             prev[v] ← UNDEFINED
-
     while let Some(u) = queue.pop_front() {
         for (cost, v) in neighbors(spaces, u) {
             let alt = dist.get(&u).unwrap_or(&usize::MAX) + cost;
@@ -30,19 +26,6 @@ fn shortest_path_dijsktra(
             }
         }
     }
-
-    //
-    //         while Q is not empty:
-    //             u ← vertex in Q with minimum dist[u]
-    //             remove u from Q
-    //
-    //             for each neighbor v of u still in Q:
-    //                 alt ← dist[u] + Graph.Edges(u, v)
-    //                 if alt < dist[v]:
-    //                     dist[v] ← alt
-    //                     prev[v] ← u
-    //
-    //         return dist[], prev[]
 
     (dist, prev)
 }
