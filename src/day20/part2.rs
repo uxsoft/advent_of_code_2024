@@ -7,7 +7,7 @@ use itertools::Itertools;
 
 use super::super::shared::{coordinate::Coordinate, direction::Direction, maze::Maze};
 
-pub fn process(input: &str, treshold: usize) -> usize {
+pub fn process(input: &str, cheat_distance: usize, treshold: usize) -> usize {
     let maze = Maze::parse(input);
 
     let (dist, _) = maze.shortest_path();
@@ -16,10 +16,13 @@ pub fn process(input: &str, treshold: usize) -> usize {
         .spaces
         .iter()
         .tuple_combinations()
-        .filter(|(a, b)| a.distance(b) == 2.)
-        .map(|(a, b)| dist[&a].abs_diff(dist[&b]) - 2) // takes two picoseconds to make the shortcut
+        .filter(|(a, b)| a.axial_distance(b) <= cheat_distance)
+        .map(|(a, b)| dist[&a].abs_diff(dist[&b]) - a.axial_distance(b)) // takes {distance} picoseconds to make the shortcut
         .filter(|d| *d >= treshold)
         .collect();
+
+    // let g_cheats: HashSet<_> = cheats.iter().copied().collect();
+    // dbg!(g_cheats);
 
     cheats.iter().count()
 }
@@ -45,14 +48,14 @@ mod tests {
 #.#.#.#.#.#.###
 #...#...#...###
 ###############";
-        let result = process(input, 10);
-        assert_eq!(result, 10);
+        let result = process(input, 20, 50);
+        assert_eq!(result, 285);
     }
 
     #[test]
     fn real() {
         let input = include_str!("input.txt");
-        let result = process(input, 100);
-        assert_eq!(result, 1337);
+        let result = process(input, 20, 100);
+        assert_eq!(result, 987695);
     }
 }

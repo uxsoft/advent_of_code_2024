@@ -16,4 +16,10 @@ impl Coordinate {
         let y = self.y.abs_diff(other.y).pow(2);
         (x as f64).add(y as f64).sqrt()
     }
+
+    pub fn axial_distance(&self, other: &Coordinate) -> usize {
+        let x = self.x.abs_diff(other.x);
+        let y = self.y.abs_diff(other.y);
+        x + y
+    }
 }
