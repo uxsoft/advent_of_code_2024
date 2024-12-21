@@ -21,11 +21,12 @@ pub mod day15;
 pub mod day16;
 pub mod day17;
 pub mod day18;
+pub mod day19;
 pub mod shared;
 
 fn main() {
-    let input = include_str!("day18/input.txt");
+    let input = include_str!("day19/input.txt");
 
-    let result = day18::part2::process(input, Coordinate::new(70, 70), 1024);
+    let result = day19::part1::process(input);
     println!("RESULT: {:?}", result);
 }

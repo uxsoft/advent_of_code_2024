@@ -62,11 +62,18 @@ pub fn process(input: &str, end: Coordinate, take: usize) -> Coordinate {
     let mut obstacles: HashSet<_> = obstacle_stream.iter().take(take).copied().collect();
     let start = Coordinate::new(0, 0);
 
+    let (_, mut path) = shortest_path_dijsktra(&obstacles, start, end.x + 1, end.y + 1);
+
     for i in take..obstacle_stream.len() {
         obstacles.insert(obstacle_stream[i]);
-        let (dist, _) = shortest_path_dijsktra(&obstacles, start, end.x + 1, end.y + 1);
-        if !dist.contains_key(&end) {
-            return obstacle_stream[i];
+
+        // No need to recompute if the obstacle isn't in the current best path
+        if path.contains_key(&obstacle_stream[i]) {
+            let (dist, p) = shortest_path_dijsktra(&obstacles, start, end.x + 1, end.y + 1);
+            path = p;
+            if !dist.contains_key(&end) {
+                return obstacle_stream[i];
+            }
         }
     }
 
