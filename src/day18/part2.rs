@@ -57,6 +57,7 @@ fn print(obstacles: &HashSet<Coordinate>, width: usize, height: usize) {
     }
 }
 
+// TODO Try to optimize using binary search
 pub fn process(input: &str, end: Coordinate, take: usize) -> Coordinate {
     let obstacle_stream = super::parse(input);
     let mut obstacles: HashSet<_> = obstacle_stream.iter().take(take).copied().collect();

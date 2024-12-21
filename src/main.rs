@@ -27,6 +27,6 @@ pub mod shared;
 fn main() {
     let input = include_str!("day19/input.txt");
 
-    let result = day19::part1::process(input);
+    let result = day19::part2::process(input);
     println!("RESULT: {:?}", result);
 }
