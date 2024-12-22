@@ -1,6 +1,6 @@
 fn compute(initial: usize, steps: usize) -> usize {
     let mut iterator = super::PseudoRandomIterator::new(initial);
-    iterator.nth(steps - 1).unwrap()
+    iterator.nth(steps).unwrap()
 }
 
 pub fn process(input: &str) -> usize {
@@ -42,6 +42,6 @@ mod tests {
     fn real() {
         let input = include_str!("input.txt");
         let output = process(input);
-        assert_eq!(output, 0);
+        assert_eq!(output, 14273043166);
     }
 }

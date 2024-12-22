@@ -26,8 +26,10 @@ impl Iterator for PseudoRandomIterator {
         x = (x * 2048) ^ x;
         x %= 16777216;
 
+        let prev_secret = self.secret;
         self.secret = x;
-        Some(x)
+        
+        Some(prev_secret)
     }
 }
 
