@@ -4,99 +4,11 @@ use itertools::Itertools;
 
 use super::keypad::KeyPad;
 
-fn numeric_shortest_paths() -> HashMap<(char, char), Vec<String>> {
-    let np = KeyPad::numpad();
-
-    let keys = "0123456789A";
-
-    let map = keys
-        .chars()
-        .cartesian_product(keys.chars())
-        .map(|(a, b)| {
-            let ap = np.locate(a);
-            let bp = np.locate(b);
-
-            let delta_x = bp.x - ap.x;
-            let delta_y = bp.y - ap.y;
-
-            let vertical = if delta_y.is_negative() {
-                "^".repeat(delta_y.neg() as usize)
-            } else {
-                "v".repeat(delta_y as usize)
-            };
-
-            let horizontal = if delta_x.is_negative() {
-                "<".repeat(delta_x.neg() as usize)
-            } else {
-                ">".repeat(delta_x as usize)
-            };
-
-            let mut paths = Vec::new();
-            if (ap.x == 0 && bp.y == 3) || delta_x == 0 || delta_y == 0 {
-                paths.push(format!("{}{}A", horizontal, vertical));
-            } else if bp.x == 0 && ap.y == 3 {
-                paths.push(format!("{}{}A", vertical, horizontal));
-            } else {
-                paths.push(format!("{}{}A", vertical, horizontal));
-                paths.push(format!("{}{}A", horizontal, vertical));
-            }
-
-            ((a, b), paths)
-        })
-        .collect();
-
-    map
-}
-
-fn arrows_shortest_paths() -> HashMap<(char, char), Vec<String>> {
-    let np = KeyPad::arrows();
-
-    let keys = "<^v>A";
-
-    let map = keys
-        .chars()
-        .cartesian_product(keys.chars())
-        .map(|(a, b)| {
-            let ap = np.locate(a);
-            let bp = np.locate(b);
-
-            let delta_x = bp.x - ap.x;
-            let delta_y = bp.y - ap.y;
-
-            let vertical = if delta_y.is_negative() {
-                "^".repeat(delta_y.neg() as usize)
-            } else {
-                "v".repeat(delta_y as usize)
-            };
-
-            let horizontal = if delta_x.is_negative() {
-                "<".repeat(delta_x.neg() as usize)
-            } else {
-                ">".repeat(delta_x as usize)
-            };
-
-            let mut paths = Vec::new();
-            if (ap.x == 0 && bp.y == 0) || delta_x == 0 || delta_y == 0 {
-                paths.push(format!("{}{}A", horizontal, vertical));
-            } else if bp.x == 0 && ap.y == 0 {
-                paths.push(format!("{}{}A", vertical, horizontal));
-            } else {
-                paths.push(format!("{}{}A", vertical, horizontal));
-                paths.push(format!("{}{}A", horizontal, vertical));
-            }
-
-            ((a, b), paths)
-        })
-        .collect();
-
-    map
-}
-
 fn chain(input: String, depth: usize, is_numeric: bool) -> usize {
     let paths = if is_numeric {
-        numeric_shortest_paths()
+        KeyPad::numpad().shortest_paths()
     } else {
-        arrows_shortest_paths()
+        KeyPad::arrows().shortest_paths()
     };
 
     let total = format!("A{}", input)
@@ -190,6 +102,6 @@ mod tests {
     fn real() {
         let input = include_str!("input.txt");
         let output = process(input);
-        assert_eq!(output, 0);
+        assert_eq!(output, 125742);
     }
 }
