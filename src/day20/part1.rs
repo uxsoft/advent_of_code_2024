@@ -53,6 +53,6 @@ mod tests {
     fn real() {
         let input = include_str!("input.txt");
         let result = process(input, 100);
-        assert_eq!(result, 1337);
+        assert_eq!(result, 1332);
     }
 }

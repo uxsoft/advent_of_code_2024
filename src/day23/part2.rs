@@ -3,7 +3,6 @@ use std::collections::{HashMap, HashSet, VecDeque};
 use chumsky::container::Container;
 use indicatif::ProgressIterator;
 use itertools::Itertools;
-use petgraph::{algo::*, graph::NodeIndex};
 
 pub fn process(input: &str) -> String {
     let edge_list: Vec<_> = input
