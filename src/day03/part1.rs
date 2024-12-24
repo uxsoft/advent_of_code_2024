@@ -1,5 +1,5 @@
-pub fn process(input: &str) -> miette::Result<i32> {
-    let tokens = super::parse(input)?;
+pub fn process(input: &str) -> i32 {
+    let tokens = super::parse(input);
 
     let sum = tokens
         .iter()
@@ -9,7 +9,7 @@ pub fn process(input: &str) -> miette::Result<i32> {
         })
         .sum::<i32>();
 
-    Ok(sum)
+    sum
 }
 
 #[cfg(test)]
@@ -19,14 +19,14 @@ mod tests {
     #[test]
     fn example() {
         let input = "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))";
-        let result = process(input).unwrap();
+        let result = process(input);
         assert_eq!(result, 161);
     }
 
     #[test]
     fn real() {
         let input = include_str!("input.txt");
-        let result = process(input).unwrap();
+        let result = process(input);
         assert_eq!(result, 160672468);
     }
 }

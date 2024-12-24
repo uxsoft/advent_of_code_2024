@@ -1,5 +1,5 @@
-pub fn process(input: &str) -> miette::Result<u32> {
-    let lists = super::parse_chumsky(input)?;
+pub fn process(input: &str) -> u32 {
+    let lists = super::parse_chumsky(input);
     let (mut list1, mut list2): (Vec<_>, Vec<_>) = lists.into_iter().unzip();
 
     list1.sort();
@@ -11,7 +11,7 @@ pub fn process(input: &str) -> miette::Result<u32> {
         .map(|(a, b)| a.abs_diff(b))
         .sum();
 
-    Ok(result)
+    result
 }
 
 #[cfg(test)]
@@ -28,7 +28,7 @@ mod tests {
 3   3";
 
         let result = process(input);
-        assert_eq!(11, result.unwrap());
+        assert_eq!(11, result);
     }
 
     #[test]
@@ -36,6 +36,6 @@ mod tests {
         let input = include_str!("input.txt");
 
         let result = process(input);
-        assert_eq!(2742123, result.unwrap());
+        assert_eq!(2742123, result);
     }
 }

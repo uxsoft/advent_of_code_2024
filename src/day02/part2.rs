@@ -1,5 +1,4 @@
 use itertools::Itertools;
-use miette::Result;
 
 #[derive(PartialEq)]
 enum Trend {
@@ -58,12 +57,12 @@ fn is_safe_brute(report: &Vec<u32>) -> bool {
     return false;
 }
 
-pub fn process(input: &str) -> Result<usize> {
-    let matrix = super::parse(input)?;
+pub fn process(input: &str) -> usize {
+    let matrix = super::parse(input);
 
     let safe = matrix.into_iter().filter(is_safe).count();
 
-    Ok(safe)
+    safe
 }
 
 #[cfg(test)]
@@ -80,14 +79,14 @@ mod tests {
 1 3 6 7 9";
 
         let result = process(input);
-        assert_eq!(4, result.unwrap());
+        assert_eq!(4, result);
     }
 
     #[test]
     fn real() {
         let input = include_str!("input.txt");
 
-        let result = process(input).unwrap();
+        let result = process(input);
         assert_eq!(373, result);
     }
 }

@@ -90,7 +90,7 @@ impl Matrix {
     }
 }
 
-pub fn process(input: &str) -> miette::Result<usize> {
+pub fn process(input: &str) -> usize {
     let matrix = Matrix::new(input);
 
     let total = matrix
@@ -101,7 +101,7 @@ pub fn process(input: &str) -> miette::Result<usize> {
         .filter(|line| matrix.is_match(line, "XMAS"))
         .count();
 
-    Ok(total)
+    total
 }
 
 #[cfg(test)]
@@ -115,7 +115,7 @@ mod tests {
 .A..A.
 XMAS.S
 .X....";
-        let result = process(input).unwrap();
+        let result = process(input);
         assert_eq!(result, 4);
     }
 
@@ -150,14 +150,14 @@ SMSMSASXSS
 SAXAMASAAA
 MAMMMXMMMM
 MXMXAXMASX";
-        let result = process(input).unwrap();
+        let result = process(input);
         assert_eq!(result, 18);
     }
 
     #[test]
     fn real() {
         let input = include_str!("input.txt");
-        let result = process(input).unwrap();
+        let result = process(input);
         assert_eq!(result, 2583);
     }
 }

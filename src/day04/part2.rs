@@ -46,7 +46,7 @@ impl Matrix {
     }
 }
 
-pub fn process(input: &str) -> miette::Result<usize> {
+pub fn process(input: &str) -> usize {
     let matrix = Matrix::new(input);
 
     let total = matrix
@@ -56,7 +56,7 @@ pub fn process(input: &str) -> miette::Result<usize> {
         .filter(|p| matrix.is_mas_center(*p))
         .count();
 
-    Ok(total)
+    total
 }
 
 #[cfg(test)]
@@ -68,7 +68,7 @@ mod tests {
         let input = "M.S
 .A.
 M.S";
-        let result = process(input).unwrap();
+        let result = process(input);
         assert_eq!(result, 1);
     }
 
@@ -84,14 +84,14 @@ SMSMSASXSS
 SAXAMASAAA
 MAMMMXMMMM
 MXMXAXMASX";
-        let result = process(input).unwrap();
+        let result = process(input);
         assert_eq!(result, 9);
     }
 
     #[test]
     fn real() {
         let input = include_str!("input.txt");
-        let result = process(input).unwrap();
+        let result = process(input);
         assert_eq!(result, 1978);
     }
 }

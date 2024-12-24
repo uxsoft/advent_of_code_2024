@@ -25,8 +25,8 @@ fn middle_number(pages: Vec<u32>) -> u32 {
     return *number;
 }
 
-pub fn process(input: &str) -> miette::Result<u32> {
-    let (rules, manuals) = super::parse(input)?;
+pub fn process(input: &str) -> u32 {
+    let (rules, manuals) = super::parse(input);
 
     let total: u32 = manuals
         .into_iter()
@@ -34,7 +34,7 @@ pub fn process(input: &str) -> miette::Result<u32> {
         .map(middle_number)
         .sum();
 
-    return Ok(total);
+    return total;
 }
 
 #[cfg(test)]
@@ -72,7 +72,7 @@ mod tests {
 61,13,29
 97,13,75,29,47";
 
-        let result = process(input).unwrap();
+        let result = process(input);
 
         println!("{:?}", result);
 
@@ -83,7 +83,7 @@ mod tests {
     fn real() {
         let input = include_str!("input.txt");
 
-        let result = process(input).unwrap();
+        let result = process(input);
 
         println!("{:?}", result);
 

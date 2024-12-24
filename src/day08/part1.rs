@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use glam::IVec2;
 use itertools::Itertools;
 
-pub fn process(input: &str) -> miette::Result<usize> {
+pub fn process(input: &str) -> usize {
     let grid_size = super::grid_size(input);
     let coords_to_antenna = super::parse(input);
     let antenna_to_coords: HashMap<char, Vec<IVec2>> =
@@ -31,7 +31,7 @@ pub fn process(input: &str) -> miette::Result<usize> {
         .unique()
         .count();
 
-    Ok(antinode_count)
+    antinode_count
 }
 
 #[cfg(test)]
@@ -53,7 +53,7 @@ mod tests {
 ............
 ............";
 
-        let result = process(input).unwrap();
+        let result = process(input);
 
         assert_eq!(14, result);
     }
@@ -62,7 +62,7 @@ mod tests {
     fn real() {
         let input = include_str!("input.txt");
 
-        let result = process(input).unwrap();
+        let result = process(input);
 
         assert_eq!(244, result);
     }

@@ -1,5 +1,4 @@
 use itertools::Itertools;
-use miette::Result;
 
 // The levels are either all increasing or all decreasing.
 // Any two adjacent levels differ by at least one and at most three.
@@ -18,12 +17,12 @@ pub fn is_safe(report: &Vec<u32>) -> bool {
     return decreasing || increasing;
 }
 
-pub fn process(input: &str) -> Result<usize> {
-    let matrix = super::parse(input)?;
+pub fn process(input: &str) -> usize {
+    let matrix = super::parse(input);
 
     let safe = matrix.into_iter().filter(is_safe).count();
 
-    Ok(safe)
+    safe
 }
 
 #[cfg(test)]
@@ -40,7 +39,7 @@ mod tests {
 1 3 6 7 9";
 
         let result = process(input);
-        assert_eq!(2, result.unwrap());
+        assert_eq!(2, result);
     }
 
     #[test]
@@ -48,6 +47,6 @@ mod tests {
         let input = include_str!("input.txt");
 
         let result = process(input);
-        assert_eq!(314, result.unwrap());
+        assert_eq!(314, result);
     }
 }

@@ -1,8 +1,7 @@
-use miette::Result;
 use std::collections::BTreeMap;
 
-pub fn process(input: &str) -> Result<u32> {
-    let lists = super::parse_chumsky(input)?;
+pub fn process(input: &str) -> u32 {
+    let lists = super::parse_chumsky(input);
     let (list1, list2): (Vec<_>, Vec<_>) = lists.into_iter().unzip();
 
     let mut frequency: BTreeMap<u32, u32> = BTreeMap::new();
@@ -15,7 +14,7 @@ pub fn process(input: &str) -> Result<u32> {
         .map(|i| i * frequency.get(&i).unwrap_or(&0))
         .sum();
 
-    Ok(result)
+    result
 }
 
 #[cfg(test)]
@@ -32,7 +31,7 @@ mod tests {
 3   3";
 
         let result = process(input);
-        assert_eq!(31, result.unwrap());
+        assert_eq!(31, result);
     }
 
     #[test]
@@ -40,6 +39,6 @@ mod tests {
         let input = include_str!("input.txt");
 
         let result = process(input);
-        assert_eq!(21328497, result.unwrap());
+        assert_eq!(21328497, result);
     }
 }

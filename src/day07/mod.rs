@@ -1,24 +1,19 @@
 use chumsky::prelude::*;
-use miette::miette;
 
 pub mod part1;
 pub mod part2;
 
-
-pub fn parse(input: &str) -> miette::Result<Vec<(u64, Vec<u64>)>> {
+pub fn parse(input: &str) -> Vec<(u64, Vec<u64>)> {
     let u64 =
         text::int::<_, _, extra::Err<Simple<char>>>(10).map(|s: &str| s.parse::<u64>().unwrap());
 
     let components = u64.separated_by(just(' ')).collect();
 
     let equation = u64.then_ignore(just(": ")).then(components);
-    
+
     let parser = equation.separated_by(text::newline()).collect();
 
-    let result = parser
-        .parse(input)
-        .into_result()
-        .map_err(|e| miette!("Failed to parse the input, {:?}", e));
+    let result = parser.parse(input).unwrap();
 
     result
 }
@@ -43,6 +38,6 @@ mod tests {
 
         println!("{:?}", result);
 
-        assert!(result.is_ok());
+        assert_eq!(result.len(), 9);
     }
 }

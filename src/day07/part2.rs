@@ -44,8 +44,8 @@ pub fn has_solution(total: u64, components: &Vec<u64>) -> bool {
         || check(total, components, 1, first_number, Op::Concat)
 }
 
-pub fn process(input: &str) -> miette::Result<u64> {
-    let equations = super::parse(input)?;
+pub fn process(input: &str) -> u64 {
+    let equations = super::parse(input);
 
     let result: u64 = equations
         .par_iter()
@@ -53,7 +53,7 @@ pub fn process(input: &str) -> miette::Result<u64> {
         .map(|(total, _)| total)
         .sum();
 
-    Ok(result)
+    result
 }
 
 #[cfg(test)]
@@ -72,7 +72,7 @@ mod tests {
 21037: 9 7 18 13
 292: 11 6 16 20";
 
-        let result = process(input).unwrap();
+        let result = process(input);
 
         assert_eq!(11387, result);
     }
@@ -81,7 +81,7 @@ mod tests {
     fn real() {
         let input = include_str!("input.txt");
 
-        let result = process(input).unwrap();
+        let result = process(input);
 
         assert_eq!(104824810233437, result);
     }

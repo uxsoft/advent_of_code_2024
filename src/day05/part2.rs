@@ -71,8 +71,8 @@ fn topological_sort(nodes: &Vec<u32>, rules: &HashMap<u32, Vec<u32>>) -> LinkedL
     sorted_nodes
 }
 
-pub fn process(input: &str) -> miette::Result<u32> {
-    let (rules, manuals) = super::parse(input)?;
+pub fn process(input: &str) -> u32 {
+    let (rules, manuals) = super::parse(input);
 
     let rule_map = rules.into_iter().fold(HashMap::new(), |mut map, (a, b)| {
         map.entry(a)
@@ -88,7 +88,7 @@ pub fn process(input: &str) -> miette::Result<u32> {
         .map(middle_number)
         .sum();
 
-    return Ok(total);
+    total
 }
 
 #[cfg(test)]
@@ -126,7 +126,7 @@ mod tests {
 61,13,29
 97,13,75,29,47";
 
-        let result = process(input).unwrap();
+        let result = process(input);
 
         println!("{:?}", result);
 
@@ -137,7 +137,7 @@ mod tests {
     fn real() {
         let input = include_str!("input.txt");
 
-        let result = process(input).unwrap();
+        let result = process(input);
 
         println!("{:?}", result);
 
