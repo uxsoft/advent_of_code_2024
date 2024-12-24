@@ -25,11 +25,12 @@ pub mod day19;
 pub mod day20;
 pub mod day21;
 pub mod day22;
+pub mod day23;
 pub mod shared;
 
 fn main() {
-    let input = include_str!("day19/input.txt");
+    let input = include_str!("day23/input.txt");
 
-    let result = day19::part2::process(input);
+    let result = day23::part1::process(input);
     println!("RESULT: {:?}", result);
 }

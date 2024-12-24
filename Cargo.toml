@@ -12,6 +12,7 @@ glam = "0.29.2"
 indicatif = "0.17.9"
 rayon = "1.10.0"
 ilog = "1.0.1"
+petgraph = "0.6.5"
 
 [[bench]]
 name = "aoc_all"
