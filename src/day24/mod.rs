@@ -4,7 +4,7 @@ use std::collections::HashSet;
 pub mod part1;
 pub mod part2;
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
 pub enum Op {
     AND,
     OR,
@@ -21,9 +21,9 @@ impl Op {
     }
 }
 
-type Statement<'a> = (&'a str, Op, &'a str, &'a str);
+type Statement = (String, Op, String, String);
 
-pub fn parse(input: &str) -> (Vec<(&str, bool)>, Vec<Statement>) {
+pub fn parse(input: &str) -> (Vec<(String, bool)>, Vec<Statement>) {
     let bool = choice((just("0").to(false), just("1").to(true)));
 
     let op = choice((
@@ -32,7 +32,7 @@ pub fn parse(input: &str) -> (Vec<(&str, bool)>, Vec<Statement>) {
         just("XOR").to(Op::XOR),
     ));
 
-    let name = text::ident::<_, _, extra::Err<Simple<char>>>();
+    let name = text::ident::<_, _, extra::Err<Simple<char>>>().map(|n: &str| n.to_string());
 
     let var = name.then_ignore(just(": ")).then(bool);
 

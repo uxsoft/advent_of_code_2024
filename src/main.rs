@@ -30,8 +30,8 @@ pub mod day24;
 pub mod shared;
 
 fn main() {
-    let input = include_str!("day23/input.txt");
+    let input = include_str!("day24/input.txt");
 
-    let result = day23::part1::process(input);
+    let result = day24::part2::process(input);
     println!("RESULT: {:?}", result);
 }

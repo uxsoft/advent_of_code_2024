@@ -10,13 +10,13 @@ pub fn bools_to_num(bools: &Vec<bool>) -> usize {
 
 pub fn process(input: &str) -> usize {
     let (vars, statements) = parse(input);
-    let mut vars: HashMap<&str, bool> = vars.into_iter().collect();
+    let mut vars: HashMap<String, bool> = vars.into_iter().collect();
 
     let mut statements: VecDeque<super::Statement> = statements.into_iter().collect();
 
     while let Some((a, op, b, to)) = statements.pop_front() {
-        if vars.contains_key(a) && vars.contains_key(b) {
-            vars.insert(to, op.eval(vars[a], vars[b]));
+        if vars.contains_key(&a) && vars.contains_key(&b) {
+            vars.insert(to, op.eval(vars[&a], vars[&b]));
         } else {
             statements.push_back((a, op, b, to));
         }
@@ -25,7 +25,7 @@ pub fn process(input: &str) -> usize {
     let zvars: Vec<bool> = vars
         .into_iter()
         .filter(|(k, _)| k.starts_with('z'))
-        .sorted_by_key(|(k, _)| *k)
+        .sorted_by_key(|(k, _)| k.clone())
         .map(|(_, v)| v)
         .rev()
         .collect();
