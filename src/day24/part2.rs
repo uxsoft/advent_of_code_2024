@@ -199,7 +199,6 @@ pub fn process(input: &str) -> String {
         }
     }
 
-    dbg!(&faulty.len());
     let result = faulty.into_iter().unique().sorted().join(",");
     result
 }

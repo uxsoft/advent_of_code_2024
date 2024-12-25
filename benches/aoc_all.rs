@@ -132,3 +132,8 @@ fn day22() {
 fn day23() {
     let _ = aoc::day23::part2::process(divan::black_box(include_str!("../src/day23/input.txt")));
 }
+
+#[divan::bench(max_time = 1)]
+fn day24() {
+    let _ = aoc::day24::part2::process(divan::black_box(include_str!("../src/day24/input.txt")));
+}
